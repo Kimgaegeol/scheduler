@@ -1,0 +1,171 @@
+  :root {
+    --white: #e9e9e9;
+    --lightgray: #d9d9d9;
+    --lightred: #ffaea5;
+    --blue: #0367a6;
+    --lightblue: #008997;
+    --lightgreen: #cce2cb;
+
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+
+body {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    align-items: center;
+    background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+  }
+
+  #all_box {
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content:center; 
+    align-items:center;
+    background-color:#fff;
+    height: fit-content;
+    width: 500px;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius:0.7rem;
+    box-shadow:0px 40px 30px -20px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  #header_box {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+  }
+
+  #back_btn {
+    width: 60px;
+    border: 0px;
+    border-radius:1rem;
+    background-color: var(--lightred);
+    font-weight: bold;
+    color: var(--white);
+    font-size: 35px;
+    padding: 7px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    cursor: pointer;
+  }
+
+  #profile_image {
+    object-fit: cover;
+    width: 100px;
+    height: fit-content;
+  }
+
+  .box {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .info {
+    font-weight: bold;
+    font-size: 23px;
+    margin-bottom: 25px;
+  }
+
+  #info_id {
+    margin-bottom: 20px;
+  }
+
+   #password_change_text {
+    font-weight: bold;
+    font-size: 20px;
+   }
+
+   #password_change {
+    border: 2.5px solid black;
+    text-align: center;
+    width: 370px;
+    height: 50px;
+    font-weight: bold;
+    font-size: 20px;
+   }
+
+   .red {
+    color: red;
+    font-size: 11px;
+    font-weight: bold;
+    display: none;
+  }
+   .btn {
+    color: white;
+    border: 0px;
+    border-radius: 0.7rem;
+    font-weight: bold;
+    padding: 5px;
+    padding-left: 18px;
+    padding-right: 18px;
+    cursor: pointer;
+   }
+
+   #password_change_finish_btn {
+    background-color: var(--lightblue);
+    font-size: 23px;
+    margin: 10px;
+   }
+
+   #btn_box {
+    width: 350px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    margin-top: 80px;
+   }
+
+   #logout_btn {
+    background-color: var(--lightblue);
+    font-size: 15px;
+   }
+
+   #user_delete_btn {
+    background-color: red;
+    font-size: 15px;
+   }
+
+   #modal_background {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.3);
+    display: none;
+   }
+
+   .modal_box {
+    width: 550px;
+    height: 250px;
+    background-color: var(--white);
+    border: 0px;
+    border-radius: 1rem;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+   }
+
+   #logout_text {
+    text-align: center;
+   }
+
+   #logout_btn_box {
+    width: 70%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+   }

@@ -1,0 +1,182 @@
+
+  :root {
+    /* COLORS */
+    --white: #e9e9e9;
+    --gray: #333;
+    --blue: #0367a6;
+    --lightblue: #008997;
+  
+    /* RADII */
+    --button-radius: 0.7rem;
+  
+    /* SIZES */
+    --max-width: 758px;
+    --max-height: 420px;
+  
+    font-size: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+      Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+
+  body {
+    align-items: center;
+    background: url("https://res.cloudinary.com/dci1eujqw/image/upload/v1616769558/Codepen/waldemar-brandt-aThdSdgx0YM-unsplash_cnq4sb.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: grid;
+    height: 100vh;
+    place-items: center;
+  }
+
+  .container {
+    display:flex;
+    flex-flow: column nowrap;
+    justify-content:center;
+    align-items:center;
+    background-color:#fff;
+    padding:50px;
+    border-radius:0.7rem;
+    box-shadow:0px 40px 30px -20px rgba(0,0,0,0.3);
+    position: relative;
+  }
+
+  .view_all_btn {
+    /* background-color: var(--blue); */
+    /* background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%); */
+    background-color: gray;
+    border: 1px solid var(--blue);
+    color: var(--white);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top : 20px;
+    left: 20px;
+  }
+
+  .profile_container {
+    width: 100%;
+    align-self: end;
+  }
+
+  .profile_icon {
+    height : 50px;
+    width: fit-content;
+    object-fit: cover;
+    cursor: pointer;
+    position: absolute;
+    top : 10px;
+    right: 10px;
+  }
+
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .year-month {
+    color: #999;
+    font-size: 35px;
+    margin-bottom: 20px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  
+  .nav-btn {
+    width: 50px;
+    height: 50px;
+    border: none;
+    font-size: 30px;
+    line-height: 34px;
+    background-color: transparent;
+    cursor: pointer;
+    margin-bottom: 20px;
+    color:#0a3d62;
+  }
+  
+  .go-today {
+    width: 75px;
+  }
+  
+  .days {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: repeat(7, 1fr);
+    color: #999;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+    
+    .day {
+    width: 50px;
+    justify-content: center;
+    align-self:center;
+    text-align:center;
+  }
+  
+  .dates {
+    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    flex-flow: row wrap;
+    height: 470px;
+  }
+  
+  .date {
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+  }
+  
+  .day:nth-child(7n + 1), 
+  .date:nth-child(7n + 1) {
+    color: #e98181;
+  }
+  
+  .day:nth-child(7n),
+  .date:nth-child(7n) {
+    color: #7493d5;
+  }
+  
+  .other {
+    opacity: .3;
+  }
+  
+  .date:active {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(229, 229, 230, 0.766);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    content: '';
+  }
+  
+  .today {
+    position: relative;
+    color: plum;
+  }
+  
+  .today::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: -1;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: lavender;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    content: '';
+  }
