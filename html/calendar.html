@@ -7,7 +7,9 @@
     <link rel="stylesheet" type="text/css" href="../css/calendar.css">
 </head>
 <body>
+
     <div class="container">
+
         <button class="view_all_btn">전체보기</button>
         <img class="profile_icon" src="../image/profile_icon.png" alt="">
         <div class="header">
@@ -15,6 +17,7 @@
                 <button id="today_month_btn" class="year-month"></button>
                 <button id="next_month_btn" class="nav-btn go-next">&gt;</button>
         </div>
+
         <div class="main">
             <div class="days">
                 <div class="day">Sun</div>
@@ -28,6 +31,26 @@
             <div class="dates"></div>
         </div>
     </div>
+
+    <div id="modal_background"> 
+        <div id="modal_box">
+            <button id="accept_btn">확인</button>
+            <div id="date_box">
+                <div id="year_box" class="date_change_box">
+                    <button id="next_year_btn" class="date_btn">▲</button>
+                    <p id="year_text" class="date_text">2024</p>
+                    <button id="prev_year_sbtn" class="date_btn">▼</button>
+                </div>
+                <div id="month_box" class="date_change_box">
+                    <button id="next_month_btn" class="date_btn">▲</button>
+                    <p id="month_text" class="date_text">July</p>
+                    <button id="prev_month_btn" class="date_btn">▼</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/calendar.js"></script>
+
 </body>
 </html>

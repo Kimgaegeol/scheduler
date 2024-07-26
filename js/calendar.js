@@ -5,7 +5,8 @@ const prevMonthBtn = document.getElementById("prev_month_btn");
 const todayMonthBtn = document.getElementById("today_month_btn");
 const nextMonthBtn = document.getElementById("next_month_btn");
 
-
+const modalBackGround = document.getElementById("modal_background");
+const acceptBtn = document.getElementById("accept_btn");
 
 function setCalendar () {
   const viewYear = date.getFullYear(); // 해당 년 받아오기
@@ -68,16 +69,22 @@ prevMonthBtn.addEventListener("click", () => {
   date.setMonth(date.getMonth() - 1);
   setCalendar();
 })
-todayMonthBtn.addEventListener("click", () => {
-  date = new Date();
-  setCalendar();
-})
+// todayMonthBtn.addEventListener("click", () => {
+//   date = new Date();
+//   setCalendar();
+// })
 nextMonthBtn.addEventListener("click", () => {
   date.setDate(1);
   date.setMonth(date.getMonth() + 1);
   setCalendar();
 })
 
+todayMonthBtn.addEventListener("click", () => {
+  modalBackGround.style.display = "flex";
+})
 
+acceptBtn.addEventListener("click", () => {
+  modalBackGround.style.display = "none";
+})
 
 setCalendar();
