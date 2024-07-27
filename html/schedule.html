@@ -17,7 +17,7 @@
                 </section>
             </header>
             <main>
-                <section class="schedule_box">
+                <section id="add_schedule_box" class="schedule_box">
                      <button id="add_schedule_time_btn" class="add_schedule_btn add_schedule">0</button>
                      <button id="add_schedule_minute_btn" class="add_schedule_btn add_schedule">0</button>
                      <input id="add_schedule_input" class="add_schedule" type="text" placeholder="할 일 입력">
@@ -32,6 +32,45 @@
                 </section>
             </main>
         </div>
-    
+
+        <div id="modal_background">
+            <div id="time_modal" class="modal_box">
+                <div id="am_pm_box">
+                    <button id="am_btn" class="am_pm_btn">AM</button>
+                    <button id="pm_btn" class="am_pm_btn">PM</button>
+                </div>
+                <div id="first_time_box" class="time_modal_box">
+                    <button id="time_btn1" class="time_btn" onclick="timeBtnEvent(event)">0</button>
+                    <button id="time_btn2" class="time_btn" onclick="timeBtnEvent(event)">1</button>
+                    <button id="time_btn3" class="time_btn" onclick="timeBtnEvent(event)">2</button>
+                    <button id="time_btn4" class="time_btn" onclick="timeBtnEvent(event)">3</button>
+                    <button id="time_btn5" class="time_btn" onclick="timeBtnEvent(event)">4</button>
+                    <button id="time_btn6" class="time_btn" onclick="timeBtnEvent(event)">5</button>
+                </div>
+                <div id="second_time_box" class="time_modal_box">
+                    <button id="time_btn7" class="time_btn" onclick="timeBtnEvent(event)">6</button>
+                    <button id="time_btn8" class="time_btn" onclick="timeBtnEvent(event)">7</button>
+                    <button id="time_btn9" class="time_btn" onclick="timeBtnEvent(event)">8</button>
+                    <button id="time_btn10"class="time_btn" onclick="timeBtnEvent(event)">9</button>
+                    <button id="time_btn11" class="time_btn" onclick="timeBtnEvent(event)">10</button>
+                    <button id="time_btn12" class="time_btn" onclick="timeBtnEvent(event)">11</button>
+                </div>
+            </div>
+            <div id="minute_modal" class="modal_box">
+                <div id="first_minute_box" class="minute_modal_box">
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">0</button>
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">10</button>
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">20</button>
+                </div>
+                <div id="second_minute_box" class="minute_modal_box">
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">30</button>
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">40</button>
+                    <button id="minute_btn1" class="minute_btn" onclick="minuteBtnEvent(event)">50</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="../js/schedule.js"></script>
+
 </body>
 </html>
