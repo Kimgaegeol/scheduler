@@ -160,7 +160,6 @@ body {
     background-color: var(--white);
     border: 0px;
     border-radius: 1rem;
-    /* display: flex; */
     flex-flow: column nowrap;
     justify-content: space-evenly;
     align-items: center;

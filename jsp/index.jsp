@@ -1,4 +1,22 @@
-<!DOCTYPE html>
+<%@ page language= "java" contentType="text/html" pageEncoding="utf-8" %>
+<%@ page import="java.sql.DriverManager" %>
+<%@ page import="java.sql.Connection" %>
+<%@ page import="java.sql.PreparedStatement" %>
+<%@ page import="java.sql.ResultSet" %>
+
+<%
+    Class.forName("org.mariadb.jdbc.Driver");
+    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+
+    String teamSql = "SELECT * FROM team ORDER BY idx";
+    PreparedStatement teamQuery = connect.prepareStatement(teamSql);
+    ResultSet teamResult = teamQuery.executeQuery();
+
+    String gradeSql = "SELECT * FROM grade ORDER BY idx";
+    PreparedStatement gradeQuery = connect.prepareStatement(gradeSql);
+    ResultSet gradeResult = gradeQuery.executeQuery();
+%>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,11 +39,16 @@
             <input id="sign_up_phone" type="tel" placeholder="PhoneNumber" class="input" />
             <div id="sign_up_phone_check_text" class="red">"&ensp;'-'포함&ensp;"</div>
             <select name="team_select" id="sign_up_team" class="input">
-              <option value="developer">Developer</option>
-              <option value="planner">Planner</option>
+<%            while(teamResult.next()) { %>
+              <option value=<%=teamResult.getString("idx")%>><%=teamResult.getString("name")%></option>
+<%            } %>
             </select>
-            <div id = "check_leader"><input type="checkbox"/>Leader</br></div>
-            <button id="sign_up_finish_btn" class="btn">Sign Up</button>
+            <select name="grade_select" id="sign_up_grade" class="input">
+<%            while(gradeResult.next()) { %>
+              <option value=<%=gradeResult.getString("idx")%>><%=gradeResult.getString("name")%></option>
+<%            } %>
+            </select>
+            <button id="sign_up_finish_btn" class="btn" type="button">Sign Up</button>
           </form>
         </div>
       
@@ -38,7 +61,7 @@
             <input id="sign_in_pw" type="password" placeholder="Password" class="input" />
             <div id="sign_in_pw_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
             <a href="#" class="link">Forgot your password?</a>
-            <button id="sign_in_finish_btn" class="btn">Sign In</button>
+            <button id="sign_in_finish_btn" class="btn" type="button">Sign In</button>
           </form>
         </div>
       
@@ -54,6 +77,7 @@
           </div>
         </div>
       </div>
+
       <script src="../js/sign_in.js"></script>
       <script src="../js/sign_up.js"></script>
 </body>
