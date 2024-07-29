@@ -72,7 +72,7 @@ signInPw.onkeyup = function() {
 
 signInFinishBtn.addEventListener("click", () => {
   if (signInIdRule.test(signInId.value) && signInPwRule.test(signInPw.value)) {
-    alert(" 로그인 성공! ");
+    location.href = "../jsp/sign_in_action.jsp?id=" + signInId.value + "&pw=" + signInPw.value;
   }
   else {
     alert(" 제약조건을 확인해주세요. ");

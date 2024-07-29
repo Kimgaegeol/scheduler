@@ -26,6 +26,19 @@
 </head>
 <body>
     <div class="container right-panel-active">
+      
+        <!-- Sign In -->
+        <div class="container__form container--signin">
+          <form action="#" class="form" id="form2">
+            <h2 class="form__title">Sign In</h2>
+            <input id="sign_in_id" type="text" placeholder="Id" class="input" />
+            <div id="sign_in_id_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
+            <input id="sign_in_pw" type="password" placeholder="Password" class="input" />
+            <div id="sign_in_pw_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
+            <a href="#" class="link">Forgot your password?</a>
+            <button id="sign_in_finish_btn" class="btn" type="button">Sign In</button>
+          </form>
+        </div>
         <!-- Sign Up -->
         <div class="container__form container--signup">
           <form action="#" class="form" id="form1">
@@ -49,19 +62,6 @@
 <%            } %>
             </select>
             <button id="sign_up_finish_btn" class="btn" type="button">Sign Up</button>
-          </form>
-        </div>
-      
-        <!-- Sign In -->
-        <div class="container__form container--signin">
-          <form action="#" class="form" id="form2">
-            <h2 class="form__title">Sign In</h2>
-            <input id="sign_in_id" type="text" placeholder="Id" class="input" />
-            <div id="sign_in_id_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
-            <input id="sign_in_pw" type="password" placeholder="Password" class="input" />
-            <div id="sign_in_pw_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
-            <a href="#" class="link">Forgot your password?</a>
-            <button id="sign_in_finish_btn" class="btn" type="button">Sign In</button>
           </form>
         </div>
       

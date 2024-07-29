@@ -20,10 +20,6 @@
     String teamIdx = request.getParameter("teamIdx");
     String gradeIdx = request.getParameter("gradeIdx");
 
-    int idSearchCount = 0;
-    int phoneSearchCount = 0;
-
-
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
     
@@ -51,22 +47,36 @@
                 signUpQuery.setString(6, phoneText);
 
                 signUpQuery.executeUpdate();
-            }
-            else {
-                System.out.println("뭐하냐");
-            }
-        }
-        else {
-            System.out.println("뭐하냐");
-        }
-    }
-    else {
-        System.out.println("뭐하냐");
-    }
+%>
+                <script>
+                    location.href="./index.jsp"
+                    alert(" 회원가입 성공! ");
+                </script>
 
-
+<%
+            } else {
+%>
+            <script>
+                location.href="./index.jsp"
+                alert(" 중복된 전화번호입니다! ");
+            </script>
+<%
+            }
+        } else {
+%>
+            <script>
+                location.href="./index.jsp"
+                alert(" 중복된 아이디입니다! ");
+            </script>
+<%
+        }
+    } else {
+%>
+            <script>
+                location.href="./index.jsp"
+                alert(" 제약조건을 확인해주세요. ");
+            </script>
+<%
+    }
 %>
 
-<script>
-    location.href="./index.jsp"
-</script>

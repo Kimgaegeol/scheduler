@@ -134,7 +134,6 @@ signUpPhone.onkeyup = function() {
 
 signUpFinishBtn.addEventListener("click", () => {
     if (signUpIdRule.test(signUpId.value) && signUpPwRule.test(signUpPw.value) && signUpNameRule.test(signUpName.value) && signUpPhoneRule.test(signUpPhone.value)) {
-        alert(" 회원가입 성공! ");
         location.href = "../jsp/sign_up_action.jsp?id=" + signUpId.value + "&pw=" + signUpPw.value + "&name=" + signUpName.value + "&phone=" + signUpPhone.value + "&teamIdx=" + signUpTeam.options[signUpTeam.selectedIndex].value + "&gradeIdx=" + signUpGrade.options[signUpGrade.selectedIndex].value;
     }
     else {
