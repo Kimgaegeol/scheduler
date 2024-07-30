@@ -3,6 +3,8 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@page import="java.io.*, java.util.Date, java.util.Enumeration" %>
+
 
 <%
     String idRule = "^(?=.*[a-zA-Z])(?=.*[0-9]).{4,20}+$";
@@ -23,9 +25,12 @@
         signInQuery.setString(2, pwText);
         ResultSet signInResult = signInQuery.executeQuery();
         if(signInResult.next()) {
+            Date date = new Date();
+            int year = date.getYear() + 1900;
+            int month = date.getMonth() + 1;
 %>
             <script>
-                location.href = "./calender.jsp"
+                location.href = "./calender.jsp?year=" + <%=year%> + "&month=" + <%=month%>;
             </script>  
 <%
         } else {

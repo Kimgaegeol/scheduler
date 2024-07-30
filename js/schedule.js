@@ -1,3 +1,5 @@
+const scheduleRule = /^.{1,200}$/;
+
 const addScheduleTimeBtn = document.getElementById("add_schedule_time_btn");
 const addScheduleMinuteBtn = document.getElementById("add_schedule_minute_btn");
 
@@ -47,4 +49,14 @@ function minuteBtnEvent(e) {
     modalBackGround.style.display = "none";
     minuteModal.style.display = "none";
     addScheduleMinuteBtn.innerHTML = e.target.innerHTML;
+}
+
+function addScheduleBtnEvent(year,month,day,dateIdx) {
+    var content = document.getElementById("add_schedule_input");
+    if (scheduleRule.test(content.value)) {
+        location.href = "../jsp/schedule_add_action.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&time=" + addScheduleTimeBtn.innerHTML + "&minute=" + addScheduleMinuteBtn.innerHTML + "&content=" + content.value;
+    }
+    else {
+        alert(" 할 일을 입력해주세요! ")
+    }
 }
