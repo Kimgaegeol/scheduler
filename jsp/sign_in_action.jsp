@@ -30,7 +30,7 @@
             int month = date.getMonth() + 1;
 %>
             <script>
-                location.href = "./calender.jsp?year=" + <%=year%> + "&month=" + <%=month%>;
+                location.href = "./calendar.jsp?year=" + <%=year%> + "&month=" + <%=month%>;
             </script>  
 <%
         } else {

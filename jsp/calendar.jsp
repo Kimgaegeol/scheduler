@@ -82,9 +82,9 @@
         <button class="view_all_btn">전체보기</button>
         <img class="profile_icon" src="../image/profile_icon.png" alt="">
         <div class="header">
-                <button id="prev_month_btn" class="nav-btn go-prev" onclick="preMonthBtnEvent()">&lt;</button>
+                <button id="prev_month_btn" class="nav-btn go-prev" onclick="preMonthBtnEvent(<%=year%>,<%=month%>)">&lt;</button>
                 <button id="today_month_btn" class="year-month" onclick="todayMonthBtnEvent()"><%=year%> <%=month%></button>
-                <button id="next_month_btn" class="nav-btn go-next" onclick="nextMonthBtnEvent()">&gt;</button>
+                <button id="next_month_btn" class="nav-btn go-next" onclick="nextMonthBtnEvent(<%=year%>,<%=month%>)">&gt;</button>
         </div>
 
         <table class="main">
@@ -115,25 +115,25 @@ for(int i=1; i <= lastDay(year,month); i++){
         if(dayList.size() > listCount) {     
             if(Integer.parseInt(String.valueOf(dayList.get(listCount))) == i && Integer.parseInt(String.valueOf(totalScheduleList.get(listCount))) != 0) {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,<%=dateIdxList.get(listCount)%>,<%=totalScheduleList.get(listCount)%>)"><%=totalScheduleList.get(listCount)%>개</button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,<%=totalScheduleList.get(listCount)%>)"><%=totalScheduleList.get(listCount)%>개</button>
 <%          
                 listCount++;
             } 
             else if (Integer.parseInt(String.valueOf(dayList.get(listCount))) == i && Integer.parseInt(String.valueOf(totalScheduleList.get(listCount))) == 0) {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,<%=dateIdxList.get(listCount)%>,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,0)"></button>
 <%
                 listCount++;
             } 
             else {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,-1,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
 <%
             }
         } 
         else {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,-1,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
 
 <%
         }
@@ -151,26 +151,26 @@ for(int i=1; i <= lastDay(year,month); i++){
         if(dayList.size() > listCount) {     
             if(Integer.parseInt(String.valueOf(dayList.get(listCount))) == i && Integer.parseInt(String.valueOf(totalScheduleList.get(listCount))) != 0) {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,<%=dateIdxList.get(listCount)%>,<%=totalScheduleList.get(listCount)%>)"><%=totalScheduleList.get(listCount)%>개</button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,<%=totalScheduleList.get(listCount)%>)"><%=totalScheduleList.get(listCount)%>개</button>
 <%          
                 listCount++;
             } 
             else if (Integer.parseInt(String.valueOf(dayList.get(listCount))) == i && Integer.parseInt(String.valueOf(totalScheduleList.get(listCount))) == 0) {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,<%=dateIdxList.get(listCount)%>,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,0)"></button>
 <%
                 listCount++;
 
             } 
             else {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,-1,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
 <%
             }
         } 
         else {
 %>
-                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=i%>,-1,0)"></button>
+                    <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
 
 <%
         }
@@ -202,41 +202,6 @@ for(int i=1; i <= lastDay(year,month); i++){
 
     </div>
 
-    <script>
-        var year = <%=year%>;
-        var month = <%=month%>;
-
-        const modalBackGround = document.getElementById("modal_background");
-
-        function preMonthBtnEvent() {
-            if(month == 1) {
-                year--;
-                month = 12;
-            }
-            else {
-                month--;
-            }
-            location.href = "./calender.jsp?year=" + year + "&month=" + month; 
-        }
-        function nextMonthBtnEvent() {
-            if(month == 12) {
-                year++
-                month = 1
-            }
-            else {
-                month++
-            }
-            location.href = "./calender.jsp?year=" + year + "&month=" + month; 
-        }
-        function dateBtnEvent(day,dateIdx,totalSchedule) {
-            location.href = "./schedule.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule;
-        }
-        function todayMonthBtnEvent() {
-            modalBackGround.style.display = "flex";
-        }
-        function acceptBtnEvent() {
-            modalBackGround.style.display = "none";
-        }
-    </script>
+    <script src="../js/calendar.js"></script>
 </body>
 </html>

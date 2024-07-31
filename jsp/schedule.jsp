@@ -11,6 +11,9 @@
     int month = Integer.valueOf(request.getParameter("month"));
     int day = Integer.valueOf(request.getParameter("day")); 
     int dateIdx = Integer.valueOf(request.getParameter("date_idx"));
+    int totalSchedule = Integer.valueOf(request.getParameter("total_schedule"));
+    
+    String scheduleIdx = "";
 
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
@@ -59,15 +62,15 @@
                 <p id="date"><%=month%>월 <%=day%>일</p>
                 <section id="btn_box">
                     <button id="view_all_btn">전체보기</button>
-                    <button id="back_btn">➜</button>
+                    <button id="back_btn" onclick="backBtnEvent(<%=year%>,<%=month%>)">➜</button>
                 </section>
             </header>
             <main>
                 <section id="add_schedule_box" class="schedule_box">
-                     <button id="add_schedule_time_btn" class="add_schedule_btn add_schedule">0</button>
-                     <button id="add_schedule_minute_btn" class="add_schedule_btn add_schedule">0</button>
+                     <button id="add_schedule_time_btn" class="add_schedule_btn add_schedule" onclick="addScheduleTimeBtnEvent()">0</button>
+                     <button id="add_schedule_minute_btn" class="add_schedule_btn add_schedule" onclick="addScheduleMinuteBtnEvent()">0</button>
                      <input id="add_schedule_input" class="add_schedule" type="text" placeholder="할 일 입력">
-                     <button id="add_schedule_finish_btn" class="add_schedule" onclick="addScheduleBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>)">추가</button>
+                     <button id="add_schedule_finish_btn" class="add_schedule" onclick="addScheduleFinishBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">추가</button>
                 </section>
 <%
 while(scheduleResult.next()) {
@@ -76,8 +79,11 @@ while(scheduleResult.next()) {
                     <p id="check_schedule_time" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("time")%></p>
                     <p id="check_schedule_minute" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("minute")%></p>
                     <p id="check_schedule_text" class="check_schedule"><%=scheduleResult.getString("content")%></p>
-                    <button id="schedule_modify_btn" class="check_schedule">수정</button>
-                    <button id="schedule_delete_btn" class="check_schedule">삭제</button>
+                    <button id="schedule_modify_btn" class="check_schedule" onclick="scheduleModifyBtnEvent()">수정</button>
+<%
+    scheduleIdx = scheduleResult.getString("idx");
+%>
+                    <button id="schedule_delete_btn" class="check_schedule" onclick="scheduleDeleteBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>,<%=scheduleIdx%>)">삭제</button>
                 </section>
 <%
 }
@@ -88,8 +94,8 @@ while(scheduleResult.next()) {
         <div id="modal_background">
             <div id="time_modal" class="modal_box">
                 <div id="am_pm_box">
-                    <button id="am_btn" class="am_pm_btn">AM</button>
-                    <button id="pm_btn" class="am_pm_btn">PM</button>
+                    <button id="am_btn" class="am_pm_btn" onclick="amBtnEvent()">AM</button>
+                    <button id="pm_btn" class="am_pm_btn" onclick="pmBtnEvent()">PM</button>
                 </div>
                 <div id="first_time_box" class="time_modal_box">
                     <button id="time_btn1" class="time_btn" onclick="timeBtnEvent(event)">0</button>
