@@ -22,16 +22,16 @@
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
     
     if (content.matches(scheduleRule)) {
-                //스케줄 추가
-                String addScheduleString = "INSERT INTO schedule(date_idx, time, minute, content) VALUES (?,?,?,?)";
-                PreparedStatement addScheduleQuery = connect.prepareStatement(addScheduleString);
-                addScheduleQuery.setString(1, dateIdx);
-                addScheduleQuery.setString(2, time);
-                addScheduleQuery.setString(3, minute);
-                addScheduleQuery.setString(4, content);
-                addScheduleQuery.executeUpdate();
-                //스케줄 총 개수 업데이트
-                totalSchedule++;
+        //스케줄 추가
+        String addScheduleString = "INSERT INTO schedule(date_idx, time, minute, content) VALUES (?,?,?,?)";
+        PreparedStatement addScheduleQuery = connect.prepareStatement(addScheduleString);
+        addScheduleQuery.setString(1, dateIdx);
+        addScheduleQuery.setString(2, time);
+        addScheduleQuery.setString(3, minute);
+        addScheduleQuery.setString(4, content);
+        addScheduleQuery.executeUpdate();
+        //스케줄 총 개수 업데이트
+        totalSchedule++;
         String totalScheduleUpdateString = "UPDATE date SET total_schedule = ? WHERE idx = ?";
         PreparedStatement totalScheduleUpdateQuery = connect.prepareStatement(totalScheduleUpdateString);
         totalScheduleUpdateQuery.setString(1, String.valueOf(totalSchedule));

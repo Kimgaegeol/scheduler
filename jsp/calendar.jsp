@@ -80,7 +80,7 @@
     <div class="container">
 
         <button class="view_all_btn">전체보기</button>
-        <img class="profile_icon" src="../image/profile_icon.png" alt="">
+        <img class="profile_icon" src="../image/profile_icon.png" onclick="profileBtnEvent(<%=year%>,<%=month%>)">
         <div class="header">
                 <button id="prev_month_btn" class="nav-btn go-prev" onclick="preMonthBtnEvent(<%=year%>,<%=month%>)">&lt;</button>
                 <button id="today_month_btn" class="year-month" onclick="todayMonthBtnEvent()"><%=year%> <%=month%></button>

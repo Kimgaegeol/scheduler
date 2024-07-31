@@ -24,6 +24,7 @@
         signInQuery.setString(1, idText);
         signInQuery.setString(2, pwText);
         ResultSet signInResult = signInQuery.executeQuery();
+        //현재 날짜를 받아줌
         if(signInResult.next()) {
             Date date = new Date();
             int year = date.getYear() + 1900;

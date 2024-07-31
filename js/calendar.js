@@ -1,5 +1,9 @@
 const modalBackGround = document.getElementById("modal_background");
 
+function profileBtnEvent(year,month) {
+    location.href = "../jsp/profile.jsp?year=" + year + "&month=" + month;
+}
+
 function preMonthBtnEvent(year,month) {
     if(month == 1) {
         year--;
