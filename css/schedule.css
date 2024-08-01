@@ -186,7 +186,7 @@ main {
    cursor: pointer;
  }
 
- #modal_background {
+ .modal_background {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -249,7 +249,7 @@ main {
   justify-content: space-between;
  }
 
- .time_btn {
+ .modal_time_btn {
   width: 15%;
   border: 0px;
   background-color: var(--lightblue);
@@ -268,7 +268,7 @@ main {
   justify-content: space-between;
  }
 
- .minute_btn {
+ .modal_minute_btn {
   width: 26%;
   border: 0px;
   background-color: var(--lightblue);

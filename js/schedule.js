@@ -15,7 +15,28 @@ function backBtnEvent(year,month) {
     location.href = "../jsp/calendar.jsp?year=" + year + "&month=" + month;
 }
 
-function addScheduleTimeBtnEvent() {
+function timeModalBtnEvent(e) {
+    var timeBtn = e.target;
+    var firstBox = document.getElementById("first_time_box");
+    var secondBox = document.getElementById("second_time_box");
+    firstBox.replaceChildren();
+    secondBox.replaceChildren();
+    for(var step = 0; step<=11; step++) {
+        var modalTimeBtn = document.createElement("button");
+        modalTimeBtn.id = "modal_time_btn" + (step);
+        modalTimeBtn.classList.add("modal_time_btn");
+        modalTimeBtn.innerHTML = step;
+        modalTimeBtn.addEventListener("click", (e) => {
+            setTimeLogic(e.target.innerHTML,timeBtn);
+        })
+        if(step <= 5) {
+            firstBox.appendChild(modalTimeBtn);
+        }
+        else {
+            secondBox.appendChild(modalTimeBtn);
+        }
+    }
+    amBtnEvent();
     modalBackGround.style.display = "flex";
     timeModal.style.display = "flex";
 }
@@ -23,36 +44,56 @@ function addScheduleTimeBtnEvent() {
 function amBtnEvent() {
     amBtn.style.color = "white";
     pmBtn.style.color = "rgba(255,255,255,0.4)";
-    for (step=1; step <= 12; step++) {
-        var timeBtn = document.getElementById('time_btn' + step);
-        timeBtn.innerHTML = step-1;
+    for (step=0; step <= 11; step++) {
+        var modalTimeBtn = document.getElementById('modal_time_btn' + step);
+        modalTimeBtn.innerHTML = step;
     }
 }
 
 function pmBtnEvent() {
     pmBtn.style.color = "white";
     amBtn.style.color = "rgba(255,255,255,0.4)";
-    for (step=1; step <= 12; step++) {
-        var timeBtn = document.getElementById('time_btn' + step);
-        timeBtn.innerHTML = step+11;
+    for (step=0; step <= 11; step++) {
+        var modalTimeBtn = document.getElementById('modal_time_btn' + step);
+        modalTimeBtn.innerHTML = step+12;
     }  
 }
 
-function timeBtnEvent(e) {
+function setTimeLogic(num,timeBtn) {
     modalBackGround.style.display = "none";
     timeModal.style.display = "none";
-    addScheduleTimeBtn.innerHTML = e.target.innerHTML;
+    timeBtn.innerHTML = num;
 }
 
-function addScheduleMinuteBtnEvent() {
+function minuteModalBtnEvent(e) {
+    var minuteBtn = e.target;
+    var firstBox = document.getElementById("first_minute_box");
+    var secondBox = document.getElementById("second_minute_box");
+    firstBox.replaceChildren();
+    secondBox.replaceChildren();
+    for(var step = 0; step<=5; step++) {
+        var modalMinuteBtn = document.createElement("button");
+        modalMinuteBtn.id = "modal_minute_btn" + (step);
+        modalMinuteBtn.classList.add("modal_minute_btn");
+        modalMinuteBtn.innerHTML = step*10;
+        modalMinuteBtn.addEventListener("click", (e) => {
+            setMinuteLogic(e.target.innerHTML,minuteBtn);
+        })
+        if(step <= 2) {
+            firstBox.appendChild(modalMinuteBtn);
+        }
+        else {
+            secondBox.appendChild(modalMinuteBtn);
+        }
+    }
     modalBackGround.style.display = "flex";
     minuteModal.style.display = "flex";
 }
 
-function minuteBtnEvent(e) {
+function setMinuteLogic(num,minuteBtn) {
     modalBackGround.style.display = "none";
     minuteModal.style.display = "none";
-    addScheduleMinuteBtn.innerHTML = e.target.innerHTML;
+    minuteBtn.innerHTML = num;
 }
 
 function addScheduleFinishBtnEvent(year,month,day,dateIdx,totalSchedule) {
@@ -65,8 +106,33 @@ function addScheduleFinishBtnEvent(year,month,day,dateIdx,totalSchedule) {
     }
 }
 
-function scheduleModifyBtnEvent() {
-    console.log("수정버튼입니다.")
+function scheduleModifyBtnEvent(e) {
+    console.log("아아")
+    var modifyModalBackGround = document.getElementById("modify_modal_background");
+    modifyModalBackGround.style.display = "flex";
+    e.target.innerHTML = "확인";
+    e.target.parentElement.style.zIndex = 1;
+    e.target.parentElement.children[0].classList.replace('check_schedule_btn','add_schedule_btn');
+    e.target.parentElement.children[0].classList.replace('check_schedule','add_schedule');
+    e.target.parentElement.children[0].addEventListener("click", (e) => {
+        modalBackGround.style.zIndex = 1;
+        timeModal.style.zIndex = 1;
+        timeModalBtnEvent(e);
+    })
+    e.target.parentElement.children[1].classList.replace('check_schedule_btn','add_schedule_btn');
+    e.target.parentElement.children[1].classList.replace('check_schedule','add_schedule');
+    e.target.parentElement.children[1].addEventListener("click", (e) => {
+        modalBackGround.style.zIndex = 1;
+        minuteModal.style.zIndex = 1;
+        minuteModalBtnEvent(e);
+    })
+    e.target.parentElement.children[3].classList.replace('check_schedule','add_schedule');
+    e.target.parentElement.children[3].removeAttribute("onclick");
+    e.target.parentElement.children[3].addEventListener("click", () => {
+        location.href = "../jsp/index.jsp";
+    })
+    e.target.parentElement.children[4].classList.replace('check_schedule','add_schedule');
+    //취소 버튼 누르면 그냥 페이지 리다이렉트 하자.
 }
 
 function scheduleDeleteBtnEvent(year,month,day,dateIdx,totalSchedule,scheduleIdx) {

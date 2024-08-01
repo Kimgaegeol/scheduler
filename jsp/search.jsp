@@ -15,7 +15,7 @@
           <h2 class="form__title">Search Id</h2>
           <input id="search_id_phone" type="tel" placeholder="PhoneNumber" class="input" />
           <div id="search_id_phone_check_text" class="red">"&ensp;'-'포함&ensp;"</div>
-          <button id="sign_btn" class="link" type="button" onclick="signBtnEvent()">Go to Login?</button>
+          <button  class="link sign_btn" type="button" onclick="signBtnEvent()">Go to Login?</button>
           <button id="search_id_finish_btn" class="btn" type="button" onclick="searchIdFinishBtnEvent()">Search Id</button>
           <!-- <div>찾으신 아이디는<br>" stageus1234 "<br>입니다! "</div> -->
         </form>
@@ -29,7 +29,7 @@
           <div id="search_pw_id_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
           <input id="search_pw_phone" type="tel" placeholder="PhoneNumber" class="input" />
           <div id="search_pw_phone_check_text" class="red">"&ensp;'-'포함&ensp;"</div>
-          <a href="#" class="link">Go to Login?</a>
+          <button class="link sign_btn" type="button" onclick="signBtnEvent()">Go to Login?</button>
           <button id="search_pw_finish_btn" class="btn" type="button" onclick="searchPwFinishBtnEvent()">Search Pw</button>
           <!-- <div>찾으신 비밀번호는<br>" stageus1234 "<br>입니다! "</div> -->
         </form>
