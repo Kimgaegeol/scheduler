@@ -1,5 +1,4 @@
 :root {
-    /* COLORS */
     --white: hsl(0, 0%, 91%);
     --gray: #333;
     --blue: #0367a6;
@@ -195,4 +194,10 @@
     padding: 0.9rem 0.9rem;
     margin: 0.5rem 0;
     width: 100%;
+  }
+
+  #sign_btn {
+    border : 0px;
+    background-color: var(--white);
+    cursor: pointer;
   }

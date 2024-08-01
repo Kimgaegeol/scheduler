@@ -15,8 +15,8 @@
           <h2 class="form__title">Search Id</h2>
           <input id="search_id_phone" type="tel" placeholder="PhoneNumber" class="input" />
           <div id="search_id_phone_check_text" class="red">"&ensp;'-'포함&ensp;"</div>
-          <a href="#" class="link">Go to Login?</a>
-          <button id="search_id_finish_btn" class="btn">Search Id</button>
+          <button id="sign_btn" class="link" type="button" onclick="signBtnEvent()">Go to Login?</button>
+          <button id="search_id_finish_btn" class="btn" type="button" onclick="searchIdFinishBtnEvent()">Search Id</button>
           <!-- <div>찾으신 아이디는<br>" stageus1234 "<br>입니다! "</div> -->
         </form>
       </div>
@@ -30,7 +30,7 @@
           <input id="search_pw_phone" type="tel" placeholder="PhoneNumber" class="input" />
           <div id="search_pw_phone_check_text" class="red">"&ensp;'-'포함&ensp;"</div>
           <a href="#" class="link">Go to Login?</a>
-          <button id="search_pw_finish_btn" class="btn">Search Pw</button>
+          <button id="search_pw_finish_btn" class="btn" type="button" onclick="searchPwFinishBtnEvent()">Search Pw</button>
           <!-- <div>찾으신 비밀번호는<br>" stageus1234 "<br>입니다! "</div> -->
         </form>
       </div>
@@ -39,14 +39,15 @@
       <div class="container__overlay">
         <div class="overlay">
           <div class="overlay__panel overlay--left">
-            <button class="btn" id="search_pw">Search Pw</button>
+            <button class="btn" id="search_pw" type="button" onclick="searchPwBtnEvent()">Search Pw</button>
           </div>
           <div class="overlay__panel overlay--right">
-            <button class="btn" id="search_id">Search Id</button>
+            <button class="btn" id="search_id" type="button" onclick="searchIdBtnEvent()">Search Id</button>
           </div>
         </div>
       </div>
     </div>
-    <script src="../js/search.js"></script>
+    <script src="../js/search_id.js"></script>
+    <script src="../js/search_pw.js"></script>
 </body>
 </html>

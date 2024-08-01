@@ -65,8 +65,7 @@ function logoutBtnEvent() {
 }
 
 function logoutAcceptBtnEvent() {
-    modalBackGround.style.display = "none";
-    logoutModal.style.display = "none";
+    location.href = "../jsp/logout_action.jsp";
 }
 
 function logoutCancelBtnEvent() {
@@ -85,6 +84,7 @@ function userDeleteAcceptBtnEvent() {
 }
 
 function userDeleteCancelBtnEvent() {
+    //테이블 cascade로 바꾸고 시작하자
     modalBackGround.style.display = "none";
     userDeleteModal.style.display = "none";
 }

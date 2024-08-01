@@ -35,7 +35,7 @@
             <div id="sign_in_id_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
             <input id="sign_in_pw" type="password" placeholder="Password" class="input" />
             <div id="sign_in_pw_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
-            <a href="#" class="link">Forgot your password?</a>
+            <button id="search_btn" class="link" type="button" onclick="searchBtnEvent()">Forgot your password?</button>
             <button id="sign_in_finish_btn" class="btn" type="button">Sign In</button>
           </form>
         </div>

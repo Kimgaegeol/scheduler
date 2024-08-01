@@ -79,3 +79,6 @@ signInFinishBtn.addEventListener("click", () => {
   }
 })
 
+function searchBtnEvent() {
+  location.href = "../jsp/search.jsp";
+}
