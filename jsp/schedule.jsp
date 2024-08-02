@@ -78,11 +78,11 @@ while(scheduleResult.next()) {
                 <section class="schedule_box">
                     <p id="check_schedule_time" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("time")%></p>
                     <p id="check_schedule_minute" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("minute")%></p>
-                    <p id="check_schedule_text" class="check_schedule"><%=scheduleResult.getString("content")%></p>
-                    <button id="schedule_modify_btn" class="check_schedule" type="button" onclick="scheduleModifyBtnEvent(event)">수정</button>
+                    <input id="check_schedule_text" class="check_schedule" value="<%=scheduleResult.getString("content")%>" type="text" placeholder="할 일 입력", readonly>
 <%
     scheduleIdx = scheduleResult.getString("idx");
 %>
+                    <button id="schedule_modify_btn" class="check_schedule" type="button" onclick="scheduleModifyBtnEvent(event,<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>,<%=scheduleIdx%>)">수정</button>
                     <button id="schedule_delete_btn" class="check_schedule" onclick="scheduleDeleteBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>,<%=scheduleIdx%>)">삭제</button>
                 </section>
 <%
