@@ -15,6 +15,10 @@ function backBtnEvent(year,month) {
     location.href = "../jsp/calendar.jsp?year=" + year + "&month=" + month;
 }
 
+function backAllBtnEvent(year,month) {
+    location.href = "../jsp/calendar_all.jsp?year=" + year + "&month=" + month;
+}
+
 function timeModalBtnEvent(e) {
     var timeBtn = e.target;
     var firstBox = document.getElementById("first_time_box");
@@ -162,4 +166,13 @@ function modifyScheduleLogic(year,month,day,dateIdx,totalSchedule,scheduleIdx,ti
 
 function scheduleDeleteBtnEvent(year,month,day,dateIdx,totalSchedule,scheduleIdx) {
     location.href = "../jsp/schedule_delete_action.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule + "&schedule_idx=" + scheduleIdx;
+}
+
+function viewAllOffBtnEvent(year,month,day,dateIdx,totalSchedule) {
+    location.href = "../jsp/schedule_all.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule;
+}
+
+function viewAllOnBtnEvent(year,month,day,dateIdx,totalSchedule) {
+    location.href = "../jsp/schedule.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule;
+
 }

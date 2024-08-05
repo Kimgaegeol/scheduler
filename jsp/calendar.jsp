@@ -34,6 +34,11 @@
 <%
     request.setCharacterEncoding("utf-8");
 
+    //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
+    String userIdx = "8";
+    String gradeIdx = "1";
+    String teamIdx = "1";
+
     int year = Integer.valueOf(request.getParameter("year"));
     int month = Integer.valueOf(request.getParameter("month"));
 
@@ -53,7 +58,7 @@
 
     String totalScheduleString = "SELECT * FROM date WHERE user_idx = ? AND year = ? AND month = ? ORDER BY day";
     PreparedStatement totalScheduleQuery = connect.prepareStatement(totalScheduleString);
-    totalScheduleQuery.setString(1, "7");
+    totalScheduleQuery.setString(1, userIdx);
     totalScheduleQuery.setString(2, String.valueOf(year));
     totalScheduleQuery.setString(3, String.valueOf(month));
     ResultSet totalScheduleResult = totalScheduleQuery.executeQuery();
@@ -78,8 +83,14 @@
 <body>
 
     <div class="container">
+<%
+    if(gradeIdx == "1") {
+%>
+        <button class="view_all_off_btn" onclick="viewAllOffBtnEvent(<%=year%>,<%=month%>)">전체보기</button>
 
-        <button class="view_all_btn">전체보기</button>
+<%
+    }
+%>
         <img class="profile_icon" src="../image/profile_icon.png" onclick="profileBtnEvent(<%=year%>,<%=month%>)">
         <div class="header">
                 <button id="prev_month_btn" class="nav-btn go-prev" onclick="preMonthBtnEvent(<%=year%>,<%=month%>)">&lt;</button>
@@ -118,19 +129,19 @@ for(int i=1; i <= lastDay(year,month); i++){
                     <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,<%=totalScheduleList.get(listCount)%>)"><%=totalScheduleList.get(listCount)%>개</button>
 <%          
                 listCount++;
-            } 
+            }
             else if (Integer.parseInt(String.valueOf(dayList.get(listCount))) == i && Integer.parseInt(String.valueOf(totalScheduleList.get(listCount))) == 0) {
 %>
                     <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,<%=dateIdxList.get(listCount)%>,0)"></button>
 <%
                 listCount++;
-            } 
+            }
             else {
 %>
                     <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
 <%
             }
-        } 
+        }
         else {
 %>
                     <button class="total_schedule_btn" onclick="dateBtnEvent(<%=year%>,<%=month%>,<%=i%>,-1,0)"></button>
@@ -143,7 +154,7 @@ for(int i=1; i <= lastDay(year,month); i++){
             <tr class="dates">
 
 <% } 
-    else{ 
+    else{
 %>
                 <td class="date">
                     <p><%=i%></p>

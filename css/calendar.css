@@ -38,10 +38,22 @@
     position: relative;
   }
 
-  .view_all_btn {
-    /* background-color: var(--blue); */
+  .view_all_off_btn {
     /* background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%); */
     background-color: gray;
+    border: 1px solid var(--blue);
+    color: var(--white);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    position: absolute;
+    top : 20px;
+    left: 20px;
+  }
+
+  .view_all_on_btn {
+    background-color: var(--blue);
+    /* background-image: linear-gradient(90deg, var(--blue) 0%, var(--lightblue) 74%); */
     border: 1px solid var(--blue);
     color: var(--white);
     border-radius: 5px;

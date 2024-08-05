@@ -27,9 +27,24 @@ function nextMonthBtnEvent(year,month) {
 function dateBtnEvent(year,month,day,dateIdx,totalSchedule) {
     location.href = "../jsp/schedule.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule;
 }
+
+function dateAllBtnEvent(year,month,day,dateIdx,totalSchedule) {
+    console.log("아아");
+    location.href = "../jsp/schedule_all.jsp?year=" + year + "&month=" + month + "&day=" + day + "&date_idx=" + dateIdx + "&total_schedule=" + totalSchedule;
+}
+
 function todayMonthBtnEvent() {
     modalBackGround.style.display = "flex";
 }
+
 function acceptBtnEvent() {
     modalBackGround.style.display = "none";
+}
+
+function viewAllOffBtnEvent(year,month) {
+    location.href = "../jsp/calendar_all.jsp?year=" + year + "&month=" + month;
+}
+
+function viewAllOnBtnEvent(year,month) {
+    location.href = "../jsp/calendar.jsp?year=" + year + "&month=" + month;
 }

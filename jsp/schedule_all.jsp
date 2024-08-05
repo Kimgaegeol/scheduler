@@ -3,6 +3,7 @@
 <%@ page import="java.sql.Connection" %>
 <%@ page import="java.sql.PreparedStatement" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="java.util.ArrayList"%>
 
 <%
     request.setCharacterEncoding("utf-8");
@@ -18,7 +19,6 @@
     int dateIdx = Integer.valueOf(request.getParameter("date_idx"));
     int totalSchedule = Integer.valueOf(request.getParameter("total_schedule"));
     
-
     Class.forName("org.mariadb.jdbc.Driver");
     Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
     //없는 date 값이었을 경우 생성하고 dateIdx를 가져옴
@@ -46,11 +46,52 @@
         }
     }
 
-    String scheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
-    PreparedStatement scheduleQuery = connect.prepareStatement(scheduleString);
-    scheduleQuery.setString(1, String.valueOf(dateIdx));
-    ResultSet scheduleResult = scheduleQuery.executeQuery();
+    ArrayList<Integer> otherUserIdxList = new ArrayList();
+    ArrayList<String> otherUserNameList = new ArrayList();
+    ArrayList<Integer> otherDateIdxList = new ArrayList();
+    // ArrayList otherScheduleList = new ArrayList();
+    // ArrayList otherSchedule = new ArrayList();
+    ArrayList<String> otherNameScheduleList = new ArrayList();
+    ArrayList<String> otherTimeScheduleList = new ArrayList();
+    ArrayList<String> otherMinuteScheduleList = new ArrayList();
+    ArrayList<String> otherContentScheduleList = new ArrayList();
 
+
+    String otherString = "SELECT account.idx, account.name, date.idx FROM date JOIN account ON date.user_idx = account.idx WHERE account.team_idx = ? AND date.year = ? AND date.month = ? AND date.day = ?;";
+    PreparedStatement otherQuery = connect.prepareStatement(otherString);
+    otherQuery.setString(1, teamIdx);
+    otherQuery.setString(2, String.valueOf(year));
+    otherQuery.setString(3, String.valueOf(month));
+    otherQuery.setString(4, String.valueOf(day));
+    ResultSet otherResult = otherQuery.executeQuery();
+    while(otherResult.next()) {
+        // if(Integer.valueOf(otherResult.getString("account.idx")) =! dateIdx) {
+            otherUserIdxList.add(Integer.valueOf(otherResult.getString("account.idx")));
+            otherUserNameList.add(otherResult.getString("account.name"));
+            otherDateIdxList.add(Integer.valueOf(otherResult.getString("date.idx")));
+        // }
+    }
+
+    String myScheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
+    PreparedStatement myScheduleQuery = connect.prepareStatement(myScheduleString);
+    myScheduleQuery.setString(1, String.valueOf(dateIdx));
+    ResultSet myScheduleResult = myScheduleQuery.executeQuery();
+
+    for (int i=0; i<otherDateIdxList.size(); i++ ) {
+        if(otherDateIdxList.get(i) != dateIdx) {
+            String otherScheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
+            PreparedStatement otherScheduleQuery = connect.prepareStatement(otherScheduleString);
+            otherScheduleQuery.setString(1, String.valueOf(otherDateIdxList.get(i)));
+            ResultSet otherScheduleResult = otherScheduleQuery.executeQuery();
+            while(otherScheduleResult.next()) {
+                otherNameScheduleList.add(otherUserNameList.get(i));
+                otherTimeScheduleList.add(otherScheduleResult.getString("time"));
+                otherMinuteScheduleList.add(otherScheduleResult.getString("minute"));
+                otherContentScheduleList.add(otherScheduleResult.getString("content"));
+            }
+        }
+
+    }
 %>
 <html lang="en">
 <head>
@@ -68,12 +109,12 @@
 <%
     if(gradeIdx == "1") {
 %>
-                <button class="view_all_off_btn" onclick="viewAllOffBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">전체보기</button>
+        <button class="view_all_on_btn" onclick="viewAllOnBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">전체보기</button>
 
 <%
     }
 %>
-                    <button id="back_btn" onclick="backBtnEvent(<%=year%>,<%=month%>)">➜</button>
+                    <button id="back_btn" onclick="backAllBtnEvent(<%=year%>,<%=month%>)">➜</button>
                 </section>
             </header>
             <main>
@@ -84,18 +125,30 @@
                      <button id="add_schedule_finish_btn" class="add_schedule" onclick="addScheduleFinishBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">추가</button>
                 </section>
 <%
-while(scheduleResult.next()) {
+while(myScheduleResult.next()) {
 %>
                 <section class="schedule_box">
-                    <p id="check_schedule_time" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("time")%></p>
-                    <p id="check_schedule_minute" class="check_schedule_btn check_schedule"><%=scheduleResult.getString("minute")%></p>
-                    <input id="check_schedule_text" class="check_schedule" value="<%=scheduleResult.getString("content")%>" type="text" placeholder="할 일 입력", readonly>
+                    <p id="check_schedule_time" class="check_schedule_btn check_schedule"><%=myScheduleResult.getString("time")%></p>
+                    <p id="check_schedule_minute" class="check_schedule_btn check_schedule"><%=myScheduleResult.getString("minute")%></p>
+                    <input id="check_schedule_text" class="check_schedule" value="<%=myScheduleResult.getString("content")%>" type="text" placeholder="할 일 입력", readonly>
 <%
     String scheduleIdx = "";
-    scheduleIdx = scheduleResult.getString("idx");
+    scheduleIdx = myScheduleResult.getString("idx");
 %>
                     <button id="schedule_modify_btn" class="check_schedule" type="button" onclick="scheduleModifyBtnEvent(event,<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>,<%=scheduleIdx%>)">수정</button>
                     <button id="schedule_delete_btn" class="check_schedule" onclick="scheduleDeleteBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>,<%=scheduleIdx%>)">삭제</button>
+                </section>
+<%
+}
+%>
+<%
+for (int i=0; i<otherNameScheduleList.size(); i++) {
+%>
+                <section class="schedule_box">
+                    <p id="check_schedule_name" class="check_schedule_text"><%=otherNameScheduleList.get(i)%></p>
+                    <p id="check_schedule_time" class="other_schedule check_schedule_btn"><%=otherTimeScheduleList.get(i)%></p>
+                    <p id="check_schedule_minute" class="other_schedule check_schedule_btn"><%=otherMinuteScheduleList.get(i)%></p>
+                    <p id="check_schedule_text" class="other_schedule check_schedule_text"><%=otherContentScheduleList.get(i)%></p>
                 </section>
 <%
 }
