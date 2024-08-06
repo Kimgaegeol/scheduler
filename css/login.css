@@ -28,7 +28,7 @@
     margin-bottom: 1.25rem;
   }
   
-  .link {
+  .location_text {
     color: var(--gray);
     font-size: 0.9rem;
     margin: 1.5rem 0;
@@ -165,10 +165,6 @@
     transition: transform 80ms ease-in;
   }
   
-  .form > .btn {
-    margin-top: 1.5rem;
-  }
-  
   .btn:active {
     transform: scale(0.95);
   }
@@ -200,4 +196,8 @@
     border : 0px;
     background-color: var(--white);
     cursor: pointer;
+  }
+
+  .finish_btn {
+    margin-top: 15px;
   }

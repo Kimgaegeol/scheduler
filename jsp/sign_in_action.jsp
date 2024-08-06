@@ -26,6 +26,13 @@
         ResultSet signInResult = signInQuery.executeQuery();
         //현재 날짜를 받아줌
         if(signInResult.next()) {
+            session.setAttribute("user_idx", signInResult.getString("idx"));
+            session.setAttribute("user_grade", signInResult.getString("grade_idx"));
+            session.setAttribute("user_team", signInResult.getString("team_idx"));
+            session.setAttribute("user_id", signInResult.getString("id"));
+            session.setAttribute("user_pw", signInResult.getString("pw"));
+            session.setAttribute("user_name", signInResult.getString("name"));
+            session.setAttribute("user_phone", signInResult.getString("phone"));
             Date date = new Date();
             int year = date.getYear() + 1900;
             int month = date.getMonth() + 1;

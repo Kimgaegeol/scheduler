@@ -1,17 +1,26 @@
 <%@ page language= "java" contentType="text/html" pageEncoding="utf-8" %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     // 사용자 정보는 모두 session을 통해 정보를 받을 예정. 
     request.setCharacterEncoding("utf-8");
 
     String year = request.getParameter("year");
     String month = request.getParameter("month");
 
-    String idx = "7";
-    String id = "stageus2";
-    String pw = "stageus2";
-    String name = "김재걸";
-    String phone = "010-5592-1087";
+    String idx = (String)session.getAttribute("user_idx");
+    String id = (String)session.getAttribute("user_id");
+    String pw = (String)session.getAttribute("user_pw");
+    String name = (String)session.getAttribute("user_name");
+    String phone = (String)session.getAttribute("user_phone");
 %>
 
 <html lang="en">
@@ -53,7 +62,7 @@
         <div id="password_change_modal_box" class="modal_box">
             <p id="password_change_text" class="modal_text">변경하시겠습니까?</p>
             <div id="password_change_btn_box" class="modal_btn_box">
-                <button id="password_change_accept_btn" class="modal_btn" onclick="passwordChangeAcceptBtnEvent()">확인</button>
+                <button id="password_change_accept_btn" class="modal_btn" onclick="passwordChangeAcceptBtnEvent(<%=year%>,<%=month%>)">확인</button>
                 <button id="password_change_cancel_btn" class="modal_btn" onclick="passwordChangeCancelBtnEvent()">취소</button>
             </div>
         </div>

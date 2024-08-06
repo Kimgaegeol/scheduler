@@ -32,12 +32,22 @@
 %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
+
     request.setCharacterEncoding("utf-8");
 
     //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
-    String userIdx = "8";
-    String gradeIdx = "1";
-    String teamIdx = "1";
+    String userIdx = (String)session.getAttribute("user_idx");
+    String gradeIdx = (String)session.getAttribute("user_grade");
+    String teamIdx = (String)session.getAttribute("user_team");
 
     int year = Integer.valueOf(request.getParameter("year"));
     int month = Integer.valueOf(request.getParameter("month"));
@@ -84,7 +94,7 @@
 
     <div class="container">
 <%
-    if(gradeIdx == "1") {
+    if(Integer.valueOf(gradeIdx) == 1) {
 %>
         <button class="view_all_off_btn" onclick="viewAllOffBtnEvent(<%=year%>,<%=month%>)">전체보기</button>
 
@@ -196,17 +206,17 @@ for(int i=1; i <= lastDay(year,month); i++){
 
     <div id="modal_background"> 
         <div id="modal_box">
-            <button id="accept_btn" onclick="acceptBtnEvent()">확인</button>
+            <button id="accept_btn" onclick="modalAcceptBtnEvent()">확인</button>
             <div id="date_box">
                 <div id="year_box" class="date_change_box">
-                    <button id="next_year_btn" class="date_btn">▲</button>
+                    <button id="next_year_btn" class="date_btn" onclick="modalNextYearBtnEvent()">▲</button>
                     <p id="year_text" class="date_text"><%=year%></p>
-                    <button id="prev_year_sbtn" class="date_btn">▼</button>
+                    <button id="prev_year_sbtn" class="date_btn"onclick="modalPrevYearBtnEvent()">▼</button>
                 </div>
                 <div id="month_box" class="date_change_box">
-                    <button id="next_month_btn" class="date_btn">▲</button>
+                    <button id="next_month_btn" class="date_btn"onclick="modalNextMonthBtnEvent()">▲</button>
                     <p id="month_text" class="date_text"><%=month%></p>
-                    <button id="prev_month_btn" class="date_btn">▼</button>
+                    <button id="prev_month_btn" class="date_btn"onclick="modalPrevMonthBtnEvent()">▼</button>
                 </div>
             </div>
         </div>

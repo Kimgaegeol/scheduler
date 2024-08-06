@@ -35,8 +35,8 @@
             <div id="sign_in_id_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
             <input id="sign_in_pw" type="password" placeholder="Password" class="input" />
             <div id="sign_in_pw_check_text" class="red">" 영문,숫자 모두 포함 4~20글자 "</div>
-            <button id="search_btn" class="link" type="button" onclick="searchBtnEvent()">Forgot your password?</button>
-            <button id="sign_in_finish_btn" class="btn" type="button">Sign In</button>
+            <button id="search_btn" class="location_text" type="button" onclick="searchBtnEvent()">Forgot your password?</button>
+            <button id="sign_in_finish_btn" class="btn finish_btn" type="button">Sign In</button>
           </form>
         </div>
         <!-- Sign Up -->
@@ -61,7 +61,7 @@
               <option value=<%=gradeResult.getString("idx")%>><%=gradeResult.getString("name")%></option>
 <%            } %>
             </select>
-            <button id="sign_up_finish_btn" class="btn" type="button">Sign Up</button>
+            <button id="sign_up_finish_btn" class="btn finish_btn" type="button">Sign Up</button>
           </form>
         </div>
       

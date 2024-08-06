@@ -4,6 +4,15 @@
 <%@ page import="java.sql.PreparedStatement" %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     //시간,분도 정규표현식 만들어야 함
     String contentRule = "^.{1,200}$";
 

@@ -79,12 +79,10 @@ function userDeleteBtnEvent() {
 }
 
 function userDeleteAcceptBtnEvent() {
-    modalBackGround.style.display = "none";
-    userDeleteModal.style.display = "none";
+    location.href = "../jsp/user_delete_action.jsp";
 }
 
 function userDeleteCancelBtnEvent() {
-    //테이블 cascade로 바꾸고 시작하자
     modalBackGround.style.display = "none";
     userDeleteModal.style.display = "none";
 }

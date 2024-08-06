@@ -5,6 +5,15 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     String scheduleRule = "^.{1,200}$";
 
     request.setCharacterEncoding("utf-8");

@@ -4,6 +4,15 @@
 <%@ page import="java.sql.PreparedStatement" %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     request.setCharacterEncoding("utf-8");
     String year = request.getParameter("year");
     String month = request.getParameter("month");

@@ -5,12 +5,21 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     request.setCharacterEncoding("utf-8");
 
     //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
-    String userIdx = "8";
-    String gradeIdx = "1";
-    String teamIdx = "1";
+    String userIdx = (String)session.getAttribute("user_idx");
+    String gradeIdx = (String)session.getAttribute("user_grade");
+    String teamIdx = (String)session.getAttribute("user_team");
 
     int year = Integer.valueOf(request.getParameter("year"));
     int month = Integer.valueOf(request.getParameter("month"));
@@ -66,7 +75,7 @@
                 <p id="date"><%=month%>월 <%=day%>일</p>
                 <section id="btn_box">
 <%
-    if(gradeIdx == "1") {
+    if(Integer.valueOf(gradeIdx) == 1) {
 %>
                 <button class="view_all_off_btn" onclick="viewAllOffBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">전체보기</button>
 

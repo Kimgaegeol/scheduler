@@ -6,12 +6,21 @@
 <%@ page import="java.util.ArrayList"%>
 
 <%
+    if(session.getAttribute("user_idx") == null) {
+        session.invalidate();
+%>
+    <script>
+        alert("세션이 만료되었습니다.");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
     request.setCharacterEncoding("utf-8");
 
     //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
-    String userIdx = "8";
-    String gradeIdx = "1";
-    String teamIdx = "1";
+    String userIdx = (String)session.getAttribute("user_idx");
+    String gradeIdx = (String)session.getAttribute("user_grade");
+    String teamIdx = (String)session.getAttribute("user_team");
 
     int year = Integer.valueOf(request.getParameter("year"));
     int month = Integer.valueOf(request.getParameter("month"));
@@ -65,11 +74,9 @@
     otherQuery.setString(4, String.valueOf(day));
     ResultSet otherResult = otherQuery.executeQuery();
     while(otherResult.next()) {
-        // if(Integer.valueOf(otherResult.getString("account.idx")) =! dateIdx) {
-            otherUserIdxList.add(Integer.valueOf(otherResult.getString("account.idx")));
-            otherUserNameList.add(otherResult.getString("account.name"));
-            otherDateIdxList.add(Integer.valueOf(otherResult.getString("date.idx")));
-        // }
+        otherUserIdxList.add(Integer.valueOf(otherResult.getString("account.idx")));
+        otherUserNameList.add(otherResult.getString("account.name"));
+        otherDateIdxList.add(Integer.valueOf(otherResult.getString("date.idx")));
     }
 
     String myScheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
@@ -107,7 +114,7 @@
                 <p id="date"><%=month%>월 <%=day%>일</p>
                 <section id="btn_box">
 <%
-    if(gradeIdx == "1") {
+    if(Integer.valueOf(gradeIdx) == 1) {
 %>
         <button class="view_all_on_btn" onclick="viewAllOnBtnEvent(<%=year%>,<%=month%>,<%=day%>,<%=dateIdx%>,<%=totalSchedule%>)">전체보기</button>
 
