@@ -5,6 +5,7 @@
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.util.ArrayList"%>
 
+
 <%!
 // 필요한 함수 모아놓은 스크립트
     //년도를 넘겨받아 윤년/평년을 판단해 윤년이면 true, 평년이면 false를 리턴하는 메서드
@@ -28,61 +29,65 @@
     //년,월,일을 넘겨받아 요일을 숫자로 리턴하는 메서드, 일요일(0),월요일(1)....토요일(6)
     int weekDay(int year, int month, int day) {
         return totalDay(year,month,day) % 7;
-    }  
+    }
 %>
 
 <%
-    if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
+if(session.getAttribute("user_idx") == null) {
 %>
     <script>
         alert("세션이 만료되었습니다.");
         location.href = "./index.jsp";
     </script>
 <%
-    }
-
+} 
+else {
     request.setCharacterEncoding("utf-8");
 
-    //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
+    String userIdxRule = "^[0-9]+$";
+    String yearRule = "^[0-9]+$";
+    String monthRule = "^[0-9]+$";
+
     String userIdx = (String)session.getAttribute("user_idx");
     String gradeIdx = (String)session.getAttribute("user_grade");
     String teamIdx = (String)session.getAttribute("user_team");
 
-    int year = Integer.valueOf(request.getParameter("year"));
-    int month = Integer.valueOf(request.getParameter("month"));
-
-    //1일의 요일을 계산(자주 쓰이기 때문에 변수로 선언)
-    int first = weekDay(year,month,1);
-    //1일이 출력될 위치 전에 전달의 마지막 날짜들을 넣어주기 위해 전 달날짜의 시작일을 계산
-    int start = 0;
-    start = month ==1? lastDay(year-1, 12)-first : lastDay(year, month-1)-first;
+    String year = request.getParameter("year");
+    String month = request.getParameter("month");
 
     //각 date의 idx, day, total_schedule 저장할 배열 선언
     ArrayList dateIdxList = new ArrayList();
     ArrayList dayList = new ArrayList();
     ArrayList totalScheduleList = new ArrayList();
-    
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
 
-    String totalScheduleString = "SELECT * FROM date WHERE user_idx = ? AND year = ? AND month = ? ORDER BY day";
-    PreparedStatement totalScheduleQuery = connect.prepareStatement(totalScheduleString);
-    totalScheduleQuery.setString(1, userIdx);
-    totalScheduleQuery.setString(2, String.valueOf(year));
-    totalScheduleQuery.setString(3, String.valueOf(month));
-    ResultSet totalScheduleResult = totalScheduleQuery.executeQuery();
-    //각 리스트에 저장 
-    while(totalScheduleResult.next()) {
-        dateIdxList.add(totalScheduleResult.getString("idx"));
-        dayList.add(totalScheduleResult.getString("day"));
-        totalScheduleList.add(totalScheduleResult.getString("total_schedule"));
-    }
+    //1일의 요일을 계산(자주 쓰이기 때문에 변수로 선언)
+    int first = 0;
+    //1일이 출력될 위치 전에 전달의 마지막 날짜들을 넣어주기 위해 전 달날짜의 시작일을 계산
+    int start = 0;
     //day값과 생성되는 날짜가 같을 시 total_schedule을 추가해줌 
     //그러기 위해선 listCount선언해줘야함 -> 다음 스케줄 개수를 추가해주기 위해
     int listCount = 0;
-%>
+    
+    if(userIdx.matches(userIdxRule) && year.matches(yearRule) && month.matches(monthRule)) {
+        first = weekDay(Integer.valueOf(year),Integer.valueOf(month),1);
+        start = Integer.valueOf(month) ==1? lastDay(Integer.valueOf(year)-1, 12)-first : lastDay(Integer.valueOf(year), Integer.valueOf(month)-1)-first;
 
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+
+        String totalScheduleString = "SELECT * FROM date WHERE user_idx = ? AND year = ? AND month = ? ORDER BY day";
+        PreparedStatement totalScheduleQuery = connect.prepareStatement(totalScheduleString);
+        totalScheduleQuery.setString(1, userIdx);
+        totalScheduleQuery.setString(2, year);
+        totalScheduleQuery.setString(3, month);
+        ResultSet totalScheduleResult = totalScheduleQuery.executeQuery();
+        //각 리스트에 저장 
+        while(totalScheduleResult.next()) {
+            dateIdxList.add(totalScheduleResult.getString("idx"));
+            dayList.add(totalScheduleResult.getString("day"));
+            totalScheduleList.add(totalScheduleResult.getString("total_schedule"));
+        }
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -127,8 +132,8 @@
 <% } %>
 
 <%
-for(int i=1; i <= lastDay(year,month); i++){
-    if(weekDay(year,month,i) == 6 && i != lastDay(year,month)){
+for(int i=1; i <= lastDay(Integer.valueOf(year),Integer.valueOf(month)); i++){
+    if(weekDay(Integer.valueOf(year),Integer.valueOf(month),i) == 6 && i != lastDay(Integer.valueOf(year),Integer.valueOf(month))){
 %>
                 <td class="date">
                     <p><%=i%></p>
@@ -226,3 +231,15 @@ for(int i=1; i <= lastDay(year,month); i++){
     <script src="../js/calendar.js"></script>
 </body>
 </html>
+<%
+    }
+    else {
+%>
+    <script>
+        alert(" 올바르지 않은 접근입니다. ");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
+}
+%>

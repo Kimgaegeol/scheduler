@@ -5,60 +5,66 @@
 <%@ page import="java.sql.ResultSet" %>
 
 <%
-    if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
+if(session.getAttribute("user_idx") == null) {
 %>
     <script>
         alert("세션이 만료되었습니다.");
         location.href = "./index.jsp";
     </script>
 <%
-    }
+}
+else {
     request.setCharacterEncoding("utf-8");
 
-    //userIdx, gradeIdx, teamIdx 는 세션값으로 받아올 것.
+    String userIdxRule = "^[0-9]+$";
+    String yearRule = "^[0-9]+$";
+    String monthRule = "^[0-9]+$";
+    String dayRule = "^[0-9]+$";
+    String dateIdxRule = "^[0-9]+$";
+    String totalScheduleRule = "^[0-9]+$";
+
     String userIdx = (String)session.getAttribute("user_idx");
     String gradeIdx = (String)session.getAttribute("user_grade");
     String teamIdx = (String)session.getAttribute("user_team");
 
-    int year = Integer.valueOf(request.getParameter("year"));
-    int month = Integer.valueOf(request.getParameter("month"));
-    int day = Integer.valueOf(request.getParameter("day")); 
-    int dateIdx = Integer.valueOf(request.getParameter("date_idx"));
-    int totalSchedule = Integer.valueOf(request.getParameter("total_schedule"));
+    String year = request.getParameter("year");
+    String month = request.getParameter("month");
+    String day = request.getParameter("day"); 
+    String dateIdx = request.getParameter("date_idx");
+    String totalSchedule = request.getParameter("total_schedule");
     
+    if(userIdx.matches(userIdxRule) && year.matches(yearRule) && month.matches(monthRule) && day.matches(dayRule) && dateIdx.matches(dateIdxRule) && totalSchedule.matches(totalScheduleRule)) {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+        //없는 date 값이었을 경우 생성하고 dateIdx를 가져옴
+        if (Integer.valueOf(dateIdx) == -1) {
+            String dateInsertString = "INSERT INTO date(user_idx,year,month,day,total_schedule) VALUES (?,?,?,?,?)";
+            PreparedStatement dateInsertQuery = connect.prepareStatement(dateInsertString);
+            dateInsertQuery.setString(1, userIdx);
+            dateInsertQuery.setString(2, year);
+            dateInsertQuery.setString(3, month);
+            dateInsertQuery.setString(4, day);
+            dateInsertQuery.setString(5, "0");
+            dateInsertQuery.executeUpdate();
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
-    //없는 date 값이었을 경우 생성하고 dateIdx를 가져옴
-    if (dateIdx == -1) {
-        String dateInsertString = "INSERT INTO date(user_idx,year,month,day,total_schedule) VALUES (?,?,?,?,?)";
-        PreparedStatement dateInsertQuery = connect.prepareStatement(dateInsertString);
-        dateInsertQuery.setString(1, userIdx);
-        dateInsertQuery.setString(2, String.valueOf(year));
-        dateInsertQuery.setString(3, String.valueOf(month));
-        dateInsertQuery.setString(4, String.valueOf(day));
-        dateInsertQuery.setString(5, "0");
-        dateInsertQuery.executeUpdate();
+            //date_idx값을 가져옴
+            String dateSelectString = "SELECT idx FROM date WHERE user_idx = ? AND year = ? AND month = ? AND day = ?";
+            PreparedStatement dateSelectQuery = connect.prepareStatement(dateSelectString);
+            dateSelectQuery.setString(1, userIdx);
+            dateSelectQuery.setString(2, year);
+            dateSelectQuery.setString(3, month);
+            dateSelectQuery.setString(4, day);
+            ResultSet dateSelectResult = dateSelectQuery.executeQuery();
 
-        //date_idx값을 가져옴
-        String dateSelectString = "SELECT idx FROM date WHERE user_idx = ? AND year = ? AND month = ? AND day = ?";
-        PreparedStatement dateSelectQuery = connect.prepareStatement(dateSelectString);
-        dateSelectQuery.setString(1, userIdx);
-        dateSelectQuery.setString(2, String.valueOf(year));
-        dateSelectQuery.setString(3, String.valueOf(month));
-        dateSelectQuery.setString(4, String.valueOf(day));
-        ResultSet dateSelectResult = dateSelectQuery.executeQuery();
-
-        while(dateSelectResult.next()) {
-            dateIdx = Integer.valueOf(dateSelectResult.getString("idx"));
+            while(dateSelectResult.next()) {
+                dateIdx = dateSelectResult.getString("idx");
+            }
         }
-    }
 
-    String scheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
-    PreparedStatement scheduleQuery = connect.prepareStatement(scheduleString);
-    scheduleQuery.setString(1, String.valueOf(dateIdx));
-    ResultSet scheduleResult = scheduleQuery.executeQuery();
+        String scheduleString = "SELECT * FROM schedule WHERE date_idx = ? ORDER BY time, minute";
+        PreparedStatement scheduleQuery = connect.prepareStatement(scheduleString);
+        scheduleQuery.setString(1, dateIdx);
+        ResultSet scheduleResult = scheduleQuery.executeQuery();
 
 %>
 <html lang="en">
@@ -132,3 +138,15 @@ while(scheduleResult.next()) {
 
 </body>
 </html>
+
+<%
+    }
+    else {
+%>
+    <script>
+        alert(" 올바르지 않은 접근입니다. ");
+        location.href = "./index.jsp";
+    </script>
+<% }
+}
+%>

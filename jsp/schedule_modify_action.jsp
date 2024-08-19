@@ -5,7 +5,6 @@
 
 <%
     if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
 %>
     <script>
         alert("세션이 만료되었습니다.");
@@ -27,10 +26,11 @@
     String minute = request.getParameter("minute");
     String content = request.getParameter("content");
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+
 
     if (content.matches(contentRule)) {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
         String contentUpdateString = "UPDATE schedule SET time = ?, minute = ?, content = ? WHERE idx = ?";
         PreparedStatement contentUpdateQuery = connect.prepareStatement(contentUpdateString);
         contentUpdateQuery.setString(1, time);

@@ -20,11 +20,12 @@
     String teamIdx = request.getParameter("teamIdx");
     String gradeIdx = request.getParameter("gradeIdx");
 
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
     
     if (idText.matches(idRule) && pwText.matches(pwRule) && nameText.matches(nameRule) && phoneText.matches(phoneRule) && teamIdx.matches(teamIdxRule) && gradeIdx.matches(gradeIdxRule)) {
-        //아이디 중복찾기 과정 -> 정규표현식을 만족할 때만 검사
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+        
+        //아이디 중복찾기 과정 -> 정규표현식을 만족할 때만 검사 
         String idSearchString = "SELECT idx FROM account WHERE id = ?";
         PreparedStatement idSearchQuery = connect.prepareStatement(idSearchString);
         idSearchQuery.setString(1, idText);

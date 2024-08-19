@@ -32,28 +32,43 @@
 %>
 
 <%
-    if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
+//세션만료
+if(session.getAttribute("user_idx") == null) {
 %>
     <script>
         alert("세션이 만료되었습니다.");
         location.href = "./index.jsp";
     </script>
 <%
-    }
+}
+//팀장체크
+else if(Integer.valueOf((String)session.getAttribute("user_grade")) != 1) {
+%>
+    <script>
+        alert("유효하지 않은 접근입니다.");
+        location.href = "./index.jsp";
+    </script>
+<%   
+}
+else {
     request.setCharacterEncoding("utf-8");
+
+    String userIdxRule = "^[0-9]+$";
+    String yearRule = "^[0-9]+$";
+    String monthRule = "^[0-9]+$";
+    String teamIdxRule = "^[0-9]+$";
 
     String userIdx = (String)session.getAttribute("user_idx");
     String gradeIdx = (String)session.getAttribute("user_grade");
     String teamIdx = (String)session.getAttribute("user_team");
+
     //년도와 달을 가져옴
-    int year = Integer.valueOf(request.getParameter("year"));
-    int month = Integer.valueOf(request.getParameter("month"));
+    String year = request.getParameter("year");
+    String month = request.getParameter("month");
     //1일의 요일을 계산(자주 쓰이기 때문에 변수로 선언)
-    int first = weekDay(year,month,1);
+    int first = 0;
     //1일이 출력될 위치 전에 전달의 마지막 날짜들을 넣어주기 위해 전 달날짜의 시작일을 계산
     int start = 0;
-    start = month ==1? lastDay(year-1, 12)-first : lastDay(year, month-1)-first;
     //전체 스케줄의 개수를 담은 리스트와 일자 담을 리스트
     ArrayList<Integer> totalDayList = new ArrayList();
     ArrayList<Integer> totalScheduleList = new ArrayList();
@@ -64,33 +79,36 @@
     //for문 및 if문을 돌리기 위한 count
     int totalCount = 0;
     int myCount = 0;
-    
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
 
-    //내 스케줄 가져오기
-    String myString = "SELECT idx, day, total_schedule FROM date WHERE user_idx = ? AND year = ? AND month = ? ORDER BY day";
-    PreparedStatement myQuery = connect.prepareStatement(myString);
-    myQuery.setString(1, userIdx);
-    myQuery.setString(2, String.valueOf(year));
-    myQuery.setString(3, String.valueOf(month));
-    ResultSet myResult = myQuery.executeQuery();
-    while(myResult.next()) {
-        myIdxList.add(Integer.valueOf(myResult.getString("idx")));
-        myDayList.add(Integer.valueOf(myResult.getString("day")));
-        myTotalScheduleList.add(Integer.valueOf(myResult.getString("total_schedule")));
-    }
-    //전체 스케줄 가져오기
-    String totalString = "SELECT date.day, SUM(total_schedule) sum FROM date JOIN account ON date.user_idx = account.idx WHERE account.team_idx = ? GROUP BY date.day ORDER BY date.day";
-    PreparedStatement totalQuery = connect.prepareStatement(totalString);
-    totalQuery.setString(1, teamIdx);
-    ResultSet totalResult = totalQuery.executeQuery();
-    while(totalResult.next()) {
-        totalDayList.add(Integer.valueOf(totalResult.getString("date.day")));
-        totalScheduleList.add(Integer.valueOf(totalResult.getString("sum")));
-    }
+    if(userIdx.matches(userIdxRule) && year.matches(yearRule) && month.matches(monthRule) && teamIdx.matches(teamIdxRule)) {
+        first = weekDay(Integer.valueOf(year),Integer.valueOf(month),1);     
+        start = Integer.valueOf(month) ==1? lastDay(Integer.valueOf(year)-1, 12)-first : lastDay(Integer.valueOf(year), Integer.valueOf(month)-1)-first;
+
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+
+        //내 스케줄 가져오기
+        String myString = "SELECT idx, day, total_schedule FROM date WHERE user_idx = ? AND year = ? AND month = ? ORDER BY day";
+        PreparedStatement myQuery = connect.prepareStatement(myString);
+        myQuery.setString(1, userIdx);
+        myQuery.setString(2, year);
+        myQuery.setString(3, month);
+        ResultSet myResult = myQuery.executeQuery();
+        while(myResult.next()) {
+            myIdxList.add(Integer.valueOf(myResult.getString("idx")));
+            myDayList.add(Integer.valueOf(myResult.getString("day")));
+            myTotalScheduleList.add(Integer.valueOf(myResult.getString("total_schedule")));
+        }
+        //전체 스케줄 가져오기
+        String totalString = "SELECT date.day, SUM(total_schedule) sum FROM date JOIN account ON date.user_idx = account.idx WHERE account.team_idx = ? GROUP BY date.day ORDER BY date.day";
+        PreparedStatement totalQuery = connect.prepareStatement(totalString);
+        totalQuery.setString(1, teamIdx);
+        ResultSet totalResult = totalQuery.executeQuery();
+        while(totalResult.next()) {
+            totalDayList.add(Integer.valueOf(totalResult.getString("date.day")));
+            totalScheduleList.add(Integer.valueOf(totalResult.getString("sum")));
+        }
 %>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -135,13 +153,13 @@
 <% } %>
 
 <%
-for(int i=1; i <= lastDay(year,month); i++){
+for(int i=1; i <= lastDay(Integer.valueOf(year),Integer.valueOf(month)); i++){
 %>
                 <td class="date">
                     <p><%=i%></p>
 <%
     //토요일이면 줄바꿔줌
-    if(weekDay(year,month,i) == 6 && i != lastDay(year,month)){
+    if(weekDay(Integer.valueOf(year),Integer.valueOf(month),i) == 6 && i != lastDay(Integer.valueOf(year),Integer.valueOf(month))){
         //선택한 달에 데이터 값이 있는 지 확인(size()함수를 사용하기 위함)
         if(totalDayList.size() > totalCount) {
             if(myDayList.size() > myCount){
@@ -294,3 +312,16 @@ for(int i=1; i <= lastDay(year,month); i++){
     <script src="../js/calendar.js"></script>
 </body>
 </html>
+
+<%
+    }
+    else {
+%>
+    <script>
+        alert(" 올바르지 않은 접근입니다. ");
+        location.href = "./index.jsp";
+    </script>
+<%
+    }
+}
+%>

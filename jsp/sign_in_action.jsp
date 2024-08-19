@@ -13,12 +13,11 @@
     request.setCharacterEncoding("utf-8");
     String idText = request.getParameter("id");
     String pwText = request.getParameter("pw");
-
-
-    Class.forName("org.mariadb.jdbc.Driver");
-    Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
     
     if (idText.matches(idRule) && pwText.matches(pwRule)) {
+        Class.forName("org.mariadb.jdbc.Driver");
+        Connection connect = DriverManager.getConnection("jdbc:mariadb://localhost:3306/scheduler", "stageus", "1234");
+        
         String signInString = "SELECT * FROM account WHERE id = ? AND pw = ?";
         PreparedStatement signInQuery = connect.prepareStatement(signInString);
         signInQuery.setString(1, idText);
@@ -33,6 +32,7 @@
             session.setAttribute("user_pw", signInResult.getString("pw"));
             session.setAttribute("user_name", signInResult.getString("name"));
             session.setAttribute("user_phone", signInResult.getString("phone"));
+
             Date date = new Date();
             int year = date.getYear() + 1900;
             int month = date.getMonth() + 1;

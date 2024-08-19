@@ -5,7 +5,6 @@
 
 <%
     if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
 %>
     <script>
         alert("세션이 만료되었습니다.");

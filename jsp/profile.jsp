@@ -1,15 +1,16 @@
 <%@ page language= "java" contentType="text/html" pageEncoding="utf-8" %>
 
+
 <%
-    if(session.getAttribute("user_idx") == null) {
-        session.invalidate();
+if(session.getAttribute("user_idx") == null) {
 %>
     <script>
         alert("세션이 만료되었습니다.");
         location.href = "./index.jsp";
     </script>
 <%
-    }
+}
+else {
     // 사용자 정보는 모두 session을 통해 정보를 받을 예정. 
     request.setCharacterEncoding("utf-8");
 
@@ -89,3 +90,6 @@
 
 </body>
 </html>
+<%
+}
+%>
